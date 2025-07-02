@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHÉN THÁNH LÃI KÉP</title>
+  <style>
+    body { background: #000; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+    h1 { text-align: center; color: #0f0; font-size: 2em; margin: 0; }
+    p.subtitle { text-align: center; color: #fff; margin: 5px 0 15px; }
+    .logo { text-align: center; margin-bottom: 20px; }
+    .logo img { max-width: 100%; height: auto; }
+    .tables-container { display: flex; flex-wrap: wrap; gap: 20px; }
+    .table-block { flex: 1 1 calc(50% - 20px); display: flex; flex-direction: column; }
+    .block-header { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+    .block-header select, .block-header input, .block-header button { padding: 6px; background: #111; border: 1px solid #444; color: #fff; border-radius: 4px; }
+    .block-header button { background: #333; border-color: #555; cursor: pointer; }
+    .summary { margin-left: auto; font-weight: bold; }
+    .summary-max { color: lime; }
+    .summary-min { color: red; }
+    .table-wrapper { flex: 1; max-height: 60vh; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; background: #111; min-width: 600px; }
+    thead { position: sticky; top: 0; background: #222; z-index: 1; }
+    th, td { border: 1px solid #333; padding: 4px 8px; text-align: center; font-size: 14px; color: #ddd; }
+    th { color: #f00; }
+    td.input-cell { width: 80px; }
+    td.input-cell input { width: 60px; padding: 4px; background: #000; border: none; color: #0f0; text-align: center; font-weight: bold; }
+    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    td.result-cell { color: #0ff; }
+    td.signal-cell { color: yellow; }
+    td.outcome-cell.win { color: lime; }
+    td.outcome-cell.lose { color: red; }
+    td.outcome-cell.empty, td.signal-cell.empty { color: red; }
+    td.score-cell { color: #fff; }
+    tr:nth-child(even) td { background: #1a1a1a; }
+    .table-wrapper::-webkit-scrollbar { width: 8px; height: 8px; }
+    .table-wrapper::-webkit-scrollbar-track { background: #000; border-radius: 4px; }
+    .table-wrapper::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; border: 1px solid #888; }
+    .table-wrapper::-webkit-scrollbar-thumb:hover { background: #666; }
+    .table-wrapper { scrollbar-width: thin; scrollbar-color: #555 #000; }
+    @media (max-width: 1200px) { .table-block { flex: 1 1 100%; } }
+    @media (max-width: 768px) { .block-header { flex-direction: column; align-items: stretch; } .block-header select, .block-header input, .block-header button { width: 100%; } table { min-width: unset; } }
+  </style>
+</head>
+<body>
+  <h1>CHÉN THÁNH LÃI KÉP</h1>
+  <p class="subtitle">PHƯƠNG PHÁP: khoảng cách giữa 2 con WW gần nhau âm 15-20 tay thì vào chơi, an toàn hơn thì đợi kép</p>
+  <div class="logo"><a href="https://ibb.co/KpTB2DKJ"><img src="https://i.ibb.co/wF58S7cf/123.png" alt="Logo"></a></div>
+
+  <div class="tables-container">
+    <!-- Bảng 1 -->
+    <div class="table-block" id="block1">
+      <div class="block-header">
+        <select id="dropdown1"><option>CHƯA CHỌN BÀN 1</option></select>
+        <input type="number" id="batchStart1" placeholder="Bắt đầu STT" min="1" max="2000">
+        <input type="text" id="batchInput1" placeholder="Chuỗi A 1 (vd:1-2-3)">
+        <button id="batchBtn1">Áp dụng 1</button>
+        <button id="clearAll1" style="background:#600; border-color:#900;">Xóa tất cả</button>
+        <div class="summary">
+          <span class="summary-max">MAX E: <span id="maxE1">-</span></span>&nbsp;&nbsp;
+          <span class="summary-min">MIN E: <span id="minE1">-</span></span>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="data-table-1">
+          <thead><tr><th>STT</th><th>Number</th><th>Kết quả</th><th>Tín hiệu</th><th>Win / Lose</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Bảng 2 -->
+    <div class="table-block" id="block2">
+      <div class="block-header">
+        <select id="dropdown2"><option>CHƯA CHỌN BÀN 2</option></select>
+        <input type="number" id="batchStart2" placeholder="Bắt đầu STT" min="1" max="2000">
+        <input type="text" id="batchInput2" placeholder="Chuỗi A 2 (vd:1-2-3)">
+        <button id="batchBtn2">Áp dụng 2</button>
+        <button id="clearAll2" style="background:#600; border-color:#900;">Xóa tất cả</button>
+        <div class="summary">
+          <span class="summary-max">MAX E: <span id="maxE2">-</span></span>&nbsp;&nbsp;
+          <span class="summary-min">MIN E: <span id="minE2">-</span></span>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="data-table-2">
+          <thead><tr><th>STT</th><th>Number</th><th>Kết quả</th><th>Tín hiệu</th><th>Win / Lose</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Bảng 3 -->
+    <div class="table-block" id="block3">
+      <div class="block-header">
+        <select id="dropdown3"><option>CHƯA CHỌN BÀN 3</option></select>
+        <input type="number" id="batchStart3" placeholder="Bắt đầu STT" min="1" max="2000">
+        <input type="text" id="batchInput3" placeholder="Chuỗi A 3 (vd:1-2-3)">
+        <button id="batchBtn3">Áp dụng 3</button>
+        <button id="clearAll3" style="background:#600; border-color:#900;">Xóa tất cả</button>
+        <div class="summary">
+          <span class="summary-max">MAX E: <span id="maxE3">-</span></span>&nbsp;&nbsp;
+          <span class="summary-min">MIN E: <span id="minE3">-</span></span>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="data-table-3">
+          <thead><tr><th>STT</th><th>Number</th><th>Kết quả</th><th>Tín hiệu</th><th>Win / Lose</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Bảng 4 -->
+    <div class="table-block" id="block4">
+      <div class="block-header">
+        <select id="dropdown4"><option>CHƯA CHỌN BÀN 4</option></select>
+        <input type="number" id="batchStart4" placeholder="Bắt đầu STT" min="1" max="2000">
+        <input type="text" id="batchInput4" placeholder="Chuỗi A 4 (vd:1-2-3)">
+        <button id="batchBtn4">Áp dụng 4</button>
+        <button id="clearAll4" style="background:#600; border-color:#900;">Xóa tất cả</button>
+        <div class="summary">
+          <span class="summary-max">MAX E: <span id="maxE4">-</span></span>&nbsp;&nbsp;
+          <span class="summary-min">MIN E: <span id="minE4">-</span></span>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="data-table-4">
+          <thead><tr><th>STT</th><th>Number</th><th>Kết quả</th><th>Tín hiệu</th><th>Win / Lose</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Bảng 5 -->
+    <div class="table-block" id="block5">
+      <div class="block-header">
+        <select id="dropdown5"><option>CHƯA CHỌN BÀN 5</option></select>
+        <input type="number" id="batchStart5" placeholder="Bắt đầu STT" min="1" max="2000">
+        <input type="text" id="batchInput5" placeholder="Chuỗi A 5 (vd:1-2-3)">
+        <button id="batchBtn5">Áp dụng 5</button>
+        <button id="clearAll5" style="background:#600; border-color:#900;">Xóa tất cả</button>
+        <div class="summary">
+          <span class="summary-max">MAX E: <span id="maxE5">-</span></span>&nbsp;&nbsp;
+          <span class="summary-min">MIN E: <span id="minE5">-</span></span>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="data-table-5">
+          <thead><tr><th>STT</th><th>Number</th><th>Kết quả</th><th>Tín hiệu</th><th>Win / Lose</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Bảng 6 -->
+    <div class="table-block" id="block6">
+      <div class="block-header">
+        <select id="dropdown6"><option>CHƯA CHỌN BÀN 6</option></select>
+        <input type="number" id="batchStart6" placeholder="Bắt đầu STT" min="1" max="2000">
+        <input type="text" id="batchInput6" placeholder="Chuỗi A 6 (vd:1-2-3)">
+        <button id="batchBtn6">Áp dụng 6</button>
+        <button id="clearAll6" style="background:#600; border-color:#900;">Xóa tất cả</button>
+        <div class="summary">
+          <span class="summary-max">MAX E: <span id="maxE6">-</span></span>&nbsp;&nbsp;
+          <span class="summary-min">MIN E: <span id="minE6">-</span></span>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="data-table-6">
+          <thead><tr><th>STT</th><th>Number</th><th>Kết quả</th><th>Tín hiệu</th><th>Win / Lose</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Bảng 7 -->
+    <div class="table-block" id="block7">
+      <div class="block-header">
+        <select id="dropdown7"><option>CHƯA CHỌN BÀN 7</option></select>
+        <input type="number" id="batchStart7" placeholder="Bắt đầu STT" min="1" max="2000">
+        <input type="text" id="batchInput7" placeholder="Chuỗi A 7 (vd:1-2-3)">
+        <button id="batchBtn7">Áp dụng 7</button>
+        <button id="clearAll7" style="background:#600; border-color:#900;">Xóa tất cả</button>
+        <div class="summary">
+          <span class="summary-max">MAX E: <span id="maxE7">-</span></span>&nbsp;&nbsp;
+          <span class="summary-min">MIN E: <span id="minE7">-</span></span>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="data-table-7">
+          <thead><tr><th>STT</th><th>Number</th><th>Kết quả</th><th>Tín hiệu</th><th>Win / Lose</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Bảng 8 -->
+    <div class="table-block" id="block8">
+      <div class="block-header">
+        <select id="dropdown8"><option>CHƯA CHỌN BÀN 8</option></select>
+        <input type="number" id="batchStart8" placeholder="Bắt đầu STT" min="1" max="2000">
+        <input type="text" id="batchInput8" placeholder="Chuỗi A 8 (vd:1-2-3)">
+        <button id="batchBtn8">Áp dụng 8</button>
+        <button id="clearAll8" style="background:#600; border-color:#900;">Xóa tất cả</button>
+        <div class="summary">
+          <span class="summary-max">MAX E: <span id="maxE8">-</span></span>&nbsp;&nbsp;
+          <span class="summary-min">MIN E: <span id="minE8">-</span></span>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="data-table-8">
+          <thead><tr><th>STT</th><th>Number</th><th>Kết quả</th><th>Tín hiệu</th><th>Win / Lose</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Bảng 9 -->
+    <div class="table-block" id="block9">
+      <div class="block-header">
+        <select id="dropdown9"><option>CHƯA CHỌN BÀN 9</option></select>
+        <input type="number" id="batchStart9" placeholder="Bắt đầu STT" min="1" max="2000">
+        <input type="text" id="batchInput9" placeholder="Chuỗi A 9 (vd:1-2-3)">
+        <button id="batchBtn9">Áp dụng 9</button>
+        <button id="clearAll9" style="background:#600; border-color:#900;">Xóa tất cả</button>
+        <div class="summary">
+          <span class="summary-max">MAX E: <span id="maxE9">-</span></span>&nbsp;&nbsp;
+          <span class="summary-min">MIN E: <span id="minE9">-</span></span>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="data-table-9">
+          <thead><tr><th>STT</th><th>Number</th><th>Kết quả</th><th>Tín hiệu</th><th>Win / Lose</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Bảng 10 -->
+    <div class="table-block" id="block10">
+      <div class="block-header">
+        <select id="dropdown10"><option>CHƯA CHỌN BÀN 10</option></select>
+        <input type="number" id="batchStart10" placeholder="Bắt đầu STT" min="1" max="2000">
+        <input type="text" id="batchInput10" placeholder="Chuỗi A 10 (vd:1-2-3)">
+        <button id="batchBtn10">Áp dụng 10</button>
+        <button id="clearAll10" style="background:#600; border-color:#900;">Xóa tất cả</button>
+        <div class="summary">
+          <span class="summary-max">MAX E: <span id="maxE10">-</span></span>&nbsp;&nbsp;
+          <span class="summary-min">MIN E: <span id="minE10">-</span></span>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="data-table-10">
+          <thead><tr><th>STT</th><th>Number</th><th>Kết quả</th><th>Tín hiệu</th><th>Win / Lose</th><th>Profit</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tableCount = 6;
+    const tableData = {};
+    const names = [
+      'BCGAME ROULET','LOTUS ROULET','EMPEROR ROULET','ROULET','IMMER','SPEED ROULET','VIP ROULET',
+      'HINDI ROULET','JAWHARA ROULETTE','BUCHAREST ROULETTE','DANSK ROULEETE','DEUTSCHESS','GREEK ROULET',
+      'JAPANESE ROULETTE','NORSK ROULETTE','ROLETA AO VIVO','RULETA BOLA RAPIDA','RULET EN ESPANOL','RULET EN VIVO',
+      'SUOMALAINEN','TURKCE RULET','svensk ROULET','RULETA VIVO','VENEZIA ROULET'
+    ];
+
+    function createTable(suffix) {
+      const numRows = 2000;
+      tableData[suffix] = { rows: Array(numRows).fill(null), cumulative: 0 };
+      const tbody = document.querySelector('#data-table-' + suffix + ' tbody');
+      for (let i = 0; i < numRows; i++) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i+1}</td>
+          <td class="input-cell"><input type="number" data-idx="${i}" min="0" max="36" placeholder="..."></td>
+          <td class="result-cell"></td>
+          <td class="signal-cell empty">BỎ QUA</td>
+          <td class="outcome-cell empty">-</td>
+          <td class="score-cell"></td>`;
+        const inp = tr.querySelector('input');
+        inp.addEventListener('keydown', e => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            updateTable(suffix);
+            // focus next row's Number input
+            const next = document.querySelector(`#data-table-${suffix} input[data-idx='${i+1}']`);
+            if (next) next.focus();
+          }
+        });
+        inp.addEventListener('input', () => {
+          const raw = inp.value;
+          if (raw !== '' && (isNaN(raw) || +raw < 0 || +raw > 36)) {
+            alert('Giá trị phải là số từ 0 đến 36');
+            inp.value = '';
+            updateTable(suffix);
+            return;
+          }
+          updateTable(suffix);
+        });
+        tbody.appendChild(tr);
+      }
+
+      const sel = document.getElementById('dropdown' + suffix);
+      names.forEach(n => sel.add(new Option(n, n)));
+      sel.addEventListener('change', () => sel.style.color = sel.value.includes('CHƯA CHỌN') ? '#fff' : '#ff0');
+
+      document.getElementById('batchBtn' + suffix).addEventListener('click', () => {
+        const start = parseInt(document.getElementById('batchStart'+suffix).value) || 1;
+        const parts = document.getElementById('batchInput'+suffix).value.split(/[-,;\s]+/).map(x=>+x).filter(x=>!isNaN(x));
+        parts.forEach((val, idx) => document.querySelector(`#data-table-${suffix} input[data-idx='${start-1+idx}']`).value = val);
+        updateTable(suffix);
+      });
+      document.getElementById('clearAll' + suffix).addEventListener('click', () => {
+        document.querySelectorAll(`#data-table-${suffix} input`).forEach(i => i.value='');
+        updateTable(suffix);
+      });
+
+      updateTable(suffix);
+    }
+
+    function updateTable(suffix) {
+      const rows = Array.from(document.querySelectorAll(`#data-table-${suffix} tbody tr`));
+      let cum = 0;
+      const eVals = [];
+      rows.forEach((tr, idx) => {
+        const tdInput = tr.querySelector('input');
+        const tdResult = tr.children[2];
+        const tdSignal = tr.children[3];
+        const tdOutcome = tr.children[4];
+        const tdProfit = tr.children[5];
+        const raw = tdInput.value.trim();
+        // Kết quả
+        if (raw !== '') {
+          const num = +raw;
+          tdResult.textContent = isNaN(num) ? '' : Math.ceil(num / 9);
+          tdResult.className = 'result-cell';
+        } else {
+          tdResult.textContent = '';
+        }
+        // Tín hiệu
+        if (idx < 4 || rows.slice(idx - 4, idx).some(r => r.children[2].textContent === '')) {
+          tdSignal.textContent = 'BỎ QUA';
+          tdSignal.className = 'signal-cell empty';
+        } else {
+          const prev = rows.slice(idx - 4, idx).map(r => +r.children[2].textContent);
+          const freq = {}; prev.forEach(v => { if (v) freq[v] = (freq[v] || 0) + 1; });
+          const sg = Object.keys(freq).reduce((a, b) => freq[a] > freq[b] ? a : b, Object.keys(freq)[0]);
+          tdSignal.textContent = sg;
+          tdSignal.className = 'signal-cell';
+        }
+                // Win / Lose & Profit
+        if (tdSignal.textContent === 'BỎ QUA' || tdResult.textContent === '') {
+          tdOutcome.textContent = '-';
+          tdOutcome.className = 'outcome-cell empty';
+          tdProfit.textContent = '';
+        } else {
+          const outcome = (+tdResult.textContent === +tdSignal.textContent) ? 'WIN' : 'LOSE';
+          tdOutcome.textContent = outcome;
+          tdOutcome.className = 'outcome-cell ' + outcome.toLowerCase();
+          cum += (outcome === 'WIN' ? 3 : -1);
+          tdProfit.textContent = cum;
+          eVals.push(cum);
+        }
+      });
+      document.getElementById('maxE' + suffix).textContent = eVals.length ? Math.max(...eVals) : '-';
+      document.getElementById('minE' + suffix).textContent = eVals.length ? Math.min(...eVals) : '-';
+    }
+    for (let i = 1; i <= 10; i++) createTable(i);
+  </script>
+</body>
+</html>
